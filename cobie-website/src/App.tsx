@@ -17,7 +17,7 @@ function App() {
       </div>
 
       <div className='relative z-10 flex flex-col min-h-screen w-screen items-center text-center'>
-        <nav className='w-full z-20 h-fit border-b content-center items-center border-[#F8F7F5]/40 flex justify-between pl-8 bg-[#E5E4E2]/10'>
+        <nav className='w-full backdrop-blur-xl z-20 h-fit border-b content-center items-center border-[#F8F7F5]/40 flex justify-between pl-8 bg-[#E5E4E2]/10'>
           <span className="text-[26px] font-medium">Cobie</span>
           <div className='flex gap-0 h-full'>
             <button className='px-8 h-full hover:bg-[#F8F7F5]/20 py-4 transition-colors cursor-pointer '>
@@ -35,19 +35,19 @@ function App() {
         </div>
         
       <div className='w-full flex justify-center  -mt-36'>
-        <div className='w-[75%] aspect-video bg-[#1F1F25]/70 border border-[#F8F7F5]/40 rounded-2xl '></div>
+        <div className='w-[75%] backdrop-blur-xl aspect-video bg-[#1F1F25]/40 border border-[#F8F7F5]/40 rounded-2xl '></div>
       </div>
   
       <div className='w-full mt-16 flex flex-col px-8 sm:px-16 justify-center items-center '>
         <h1 className='text-[64px] font-medium text-[#F8F7F5] mb-2'>Features</h1>
         <div className='w-full grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-2 md:max-w-[75%]'>
-            <div className='bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
+            <div className='transition-all hover:-translate-y-2 bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
               <h1 className='text-[20px] text-left'>you can do a lot of stuff and a lot of things</h1>
             </div>
-            <div className='bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
+            <div className='transition-all hover:-translate-y-2 bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
               <h1 className='text-[20px] text-left'>It's very easy to use and setup</h1>
             </div>
-            <div className='bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
+            <div className='transition-all hover:-translate-y-2 bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
               <h1 className='text-[20px] text-left'>you can do a lot of stuff and a lot of things</h1>
             </div>
         </div>
