@@ -20,10 +20,10 @@ function App() {
         <nav className='w-full z-20 h-fit border-b content-center items-center border-[#F8F7F5]/40 flex justify-between pl-8 bg-[#E5E4E2]/10'>
           <span className="text-[26px] font-medium">Cobie</span>
           <div className='flex gap-0 h-full'>
-            <button className='px-8 h-full hover:bg-[#F8F7F5]/20 py-4 transition-colors '>
+            <button className='px-8 h-full hover:bg-[#F8F7F5]/20 py-4 transition-colors cursor-pointer '>
               <span className='text-[#E5E4E2]'>Download</span>
             </button>
-            <button className='px-8 h-full hover:bg-[#F8F7F5]/20 py-4 transition-colors '>
+            <button className='px-8 h-full hover:bg-[#F8F7F5]/20 py-4 transition-colors cursor-pointer '>
               <span className='text-[#E5E4E2]'>Source</span>
             </button>
           </div>
