@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
   return (
-    <main className='relative min-h-screen w-screen overflow-hidden text-white font-sans'>
+    <main className='relative min-h-screen w-screen overflow-hidden pb-36 text-white font-sans'>
       <div className='absolute inset-0 w-full h-full z-0'>
         <MeshGradient
           style={{ width: '100%', height: '100%' }}
@@ -34,11 +34,24 @@ function App() {
           </h1>
         </div>
         
-      <div className='w-full flex justify-center mb-12 -mt-36'>
+      <div className='w-full flex justify-center  -mt-36'>
         <div className='w-[75%] aspect-video bg-[#1F1F25]/70 border border-[#F8F7F5]/40 rounded-2xl '></div>
       </div>
   
-
+      <div className='w-full mt-16 flex flex-col px-8 sm:px-16 justify-center items-center '>
+        <h1 className='text-[64px] font-medium text-[#F8F7F5] mb-2'>Features</h1>
+        <div className='w-full grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-2 md:max-w-[75%]'>
+            <div className='bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
+              <h1 className='text-[20px] text-left'>you can do a lot of stuff and a lot of things</h1>
+            </div>
+            <div className='bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
+              <h1 className='text-[20px] text-left'>It's very easy to use and setup</h1>
+            </div>
+            <div className='bg-[#111]/75 p-6 flex flex-col rounded-xl border border-[#F8F7F5]/40'>
+              <h1 className='text-[20px] text-left'>you can do a lot of stuff and a lot of things</h1>
+            </div>
+        </div>
+      </div>
       </div>
     </main>
   )
