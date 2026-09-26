@@ -2,8 +2,8 @@ import json
 import os
 
 from dotenv import load_dotenv
-from openai import OpenAI
-
+from google.genai import types
+from google import genai
 from tools.registry import ToolRegister
 
 load_dotenv()
@@ -11,11 +11,13 @@ load_dotenv()
 
 class Agent:
     def __init__(self):
-        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.client = genai.Client(
+            api_key=os.getenv()
+        )
 
         self.registry = ToolRegister()
 
-        self.model = "gpt-5.6-luna"
+        self.model = "gemini-3-flash-preview"
 
         self.instructions = """
 You are COBIE, a local AI coding agent.
@@ -171,37 +173,36 @@ Give clear and concise answers.
                 "strict": True,
             },
         ]
-
-    def run(self, user_message):
-        response = self.client.responses.create(
-            model=self.model,
-            instructions=self.instructions,
-            input=user_message,
-            tools=self.tools,
+        self.config = types.GenerateContentConfig(
+            system_instruction=self.instructions,
+            tools=[
+                types.tool(
+                    function_declarations =self.tools
+                )
+            ]
         )
 
-        while True:
-            tool_calls = [
-                item for item in response.output if item.type == "function_call"
-            ]
-            if not tool_calls:
-                return response.output_text
-            tool_outputs = []
-            for tool_call in tool_calls:
-                tool_name = tool_call.name
-                arguments = json.loads(tool_call.arguments)
-                result = self.registry.execute(tool_name, arguments)
-                tool_outputs.append(
-                    {
-                        "type": "function_call_output",
-                        "call_id": tool_call.call_id,
-                        "output": json.dumps(result),
-                    }
-                )
-            response = self.client.responses.create(
-                model=self.model,
-                instructions=self.instructions,
-                previous_response_id=response.id,
-                input=tool_outputs,
-                tools=self.tools,
+    def run(self, user_message):
+        contents =[
+            types.Content(
+                role="user",
+                parts=[
+                    types.Part.from_text(text=user_message)
+                ]
             )
+        ]
+
+        while True:
+            response =self.client.models.generate_content(
+                model = self.model,
+                contents = contents,
+                config =self.config,
+            )
+            function_calls = response.function_calls
+            if not function_calls:
+                return response.text
+            contents.append(response.candidates[0].content)
+            function_responses =[]
+            for function_call in function_calls:
+                tool_name = function_call.name
+                arguments =dict(function_call.args)
