@@ -12,10 +12,13 @@ class Agent:
     def __init__(self):
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self.registry = ToolRegister()
+        self.contents = []
         self.model = "gemini-3-flash-preview"
         self.instructions = """
 You are COBIE, a local AI coding agent.
+
 You help the user understand and work with their project.
+
 You have access to tools that can:
 
 - read files
@@ -27,11 +30,15 @@ You have access to tools that can:
 - inspect git diff
 - edit files
 
-Use tools when you need information about the user's project.
+IMPORTANT RULES:
 
-Do not pretend you used a tool when you did not.
-
-Give clear and concise answers.
+1. Do NOT use tools for normal conversation.
+2. Do NOT use tools just because the user says something personal or conversational.
+3. Only use a tool when the user's request actually requires information or an action involving the project.
+4. If the user says something like " who am i whats my name", simply respond naturally and do not use any tool.
+5. Remember information from the current conversation when answering later questions.
+6. Do not pretend you used a tool when you did not.
+7. Give clear and concise answers.
 """
 
         self.tools = [
@@ -158,27 +165,31 @@ Give clear and concise answers.
             tools=[types.Tool(function_declarations=self.tools)],
         )
 
+
     def run(self, user_message):
-        contents = [
+        self.contents.append(
             types.Content(
                 role="user",
-                parts=[types.Part.from_text(text=user_message)],
+                parts=[
+                    types.Part.from_text(text=user_message)
+                ],
             )
-        ]
+        )
 
         while True:
             response = self.client.models.generate_content(
                 model=self.model,
-                contents=contents,
+                contents=self.contents,
                 config=self.config,
             )
 
             function_calls = response.function_calls
 
             if not function_calls:
+                self.contents.append(response.candidates[0].content)
                 return response.text
 
-            contents.append(response.candidates[0].content)
+            self.contents.append(response.candidates[0].content)
 
             function_responses = []
 
@@ -188,15 +199,21 @@ Give clear and concise answers.
 
                 print(f"[Tool] {tool_name}({arguments})")
 
-                result = self.registry.execute(tool_name, arguments)
+                result = self.registry.execute(
+                    tool_name,
+                    arguments
+                )
 
                 function_responses.append(
                     types.Part.from_function_response(
-                        name=tool_name, response={"result": result}
+                        name=tool_name,
+                        response={
+                            "result": result
+                        },
                     )
                 )
 
-            contents.append(
+            self.contents.append(
                 types.Content(
                     role="user",
                     parts=function_responses,
