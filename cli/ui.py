@@ -7,10 +7,13 @@ console = Console()
 def welcome():
     title = Text("COBIE",style="bold cyan")
     subtitle = Text("Your local AI coding agent",style="dim")
+    subtitle2 = Text("Ask me anything ex: fix your project,chat,create a project ,ect",style="dim")
     content = Text()
     content.append_text(title)
     content.append("\n")
     content.append_text(subtitle)
+    content.append("\n")
+    content.append_text(subtitle2)
     
     console.print(
         Panel(
@@ -20,7 +23,7 @@ def welcome():
     )
     console.print(
         "[dim]Type[/dim] [bold cyan]/help[/bold cyan]"
-        "[dim]To see available commands.[/dim] \n"
+        "[dim] To see available commands.[/dim] \n"
     )
 def user_prompt():
     return console.input("[bold cyan]> [/bold cyan]")

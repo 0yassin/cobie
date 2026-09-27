@@ -11,14 +11,15 @@ def run_cli():
         if not user_input.strip():
             continue
         command = user_input.strip().lower()
-        
-        if command == "/help":
+        if command in ("/help", "help"):
             show_help()
             continue
-        if command == "/clear":
+
+        if command in ("/clear", "clear"):
             clear_history(agent)
             continue
-        if command == "/exit":
+
+        if command in ("/exit", "exit"):
             show_goodbye()
             break
         try:
